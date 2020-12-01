@@ -20,15 +20,25 @@ class Question extends Component {
 
   next = () => {
     // TODO : switch to the next question,
-    // and check answers to set the score after you finished the last question    
+	this.state.current_question += 1;
+    // and check answers to set the score after you finished the last question
+	if(this.state.current_question == this.state.contents.length){
+		this.state.complete = true;
+		var i;
+		for(i = 0; i < this.contents.length; i++){
+			this.score += 1;
+		}
+	}
   }
 
   choose = () => {
     // TODO : update 'ans' for the option you clicked
+	this.ans[this.current_question] = 0;
   }
 
   getQuestions = () => {
     // TODO : get questions from backend
+	axios.get('/getContents');
   }
 
   componentDidMount() {
@@ -48,7 +58,7 @@ class Question extends Component {
           <React.Fragment>
             <div id="question-box">
               <div className="question-box-inner">
-
+				<p>Question ${this.state.current_question+1} of ${this.contents.length}</p>
               </div>
             </div>
 
